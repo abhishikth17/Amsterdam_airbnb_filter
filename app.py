@@ -89,30 +89,3 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
                     df = df[df[column].str.contains(user_text_input)]      
 
     return df
-
-st.dataframe(filter_dataframe(df))
-
-# Display dataframe and text
-st.dataframe(dataframe)
-st.markdown("Below is a map showing all the Airbnb listings with a red dot and the location we've chosen with a blue dot.")
-
-# Create the plotly express figure
-fig = px.scatter_mapbox(
-    dataframe,
-    lat="Latitude",
-    lon="Longitude",
-    color="Location",
-    color_discrete_sequence=["blue", "red"],
-    zoom=11,
-    height=500,
-    width=800,
-    hover_name="Price",
-    hover_data=["Meters from chosen location", "Location"],
-    labels={"color": "Locations"},
-)
-fig.update_geos(center=dict(lat=dataframe.iloc[0][2], lon=dataframe.iloc[0][3]))
-fig.update_layout(mapbox_style="stamen-terrain")
-
-# Show the figure
-st.plotly_chart(fig, use_container_width=True)
-
