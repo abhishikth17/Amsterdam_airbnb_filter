@@ -7,11 +7,10 @@ from pandas.api.types import (
     is_object_dtype
 )
 
-st.title("Filter your Airbnb Listings dataframe!")
+st.title("Filter your Airbnb Listings dataframe for Amsterdam!")
 
 st.write(
-    """This app is based on this blog [here](https://blog.streamlit.io/auto-generate-a-dataframe-filtering-ui-in-streamlit-with-filter_dataframe/). 
-    Can you think of ways to extend it with visuals?
+    """Check the 'Add filters' box below to add filter to the listings dataframe to find the ones that match your preferences
     """
 )
 
