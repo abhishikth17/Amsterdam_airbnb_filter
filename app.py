@@ -1,5 +1,6 @@
 import pandas as pd
 import streamlit as st
+import plotly.express as px
 from pandas.api.types import (
     is_categorical_dtype,
     is_datetime64_any_dtype,
@@ -10,7 +11,7 @@ from pandas.api.types import (
 st.title("Filter your Airbnb Listings dataframe!")
 
 st.write(
-    """Click the add filter below and filter the airbnb listings to find the prefect one that matches your preferences
+    """Check 'Add filters' box below and filter the airbnb listings to find the prefect one that matches your preferences
     """
 )
 
@@ -85,7 +86,7 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
                     f"Substring or regex in {column}",
                 )
                 if user_text_input:
-                    df = df[df[column].str.contains(user_text_input)]
+                    df = df[df[column].str.contains(user_text_input)]      
 
     return df
 
@@ -94,3 +95,28 @@ df = pd.read_csv(
     "WK2_Airbnb_Amsterdam_listings_proj_solution.csv", index_col=0
 )
 st.dataframe(filter_dataframe(df))
+
+# Display dataframe and text
+st.dataframe(dataframe)
+st.markdown("Below is a map showing all the Airbnb listings with a red dot and the location we've chosen with a blue dot.")
+
+# Create the plotly express figure
+fig = px.scatter_mapbox(
+    dataframe,
+    lat="Latitude",
+    lon="Longitude",
+    color="Location",
+    color_discrete_sequence=["blue", "red"],
+    zoom=11,
+    height=500,
+    width=800,
+    hover_name="Price",
+    hover_data=["Meters from chosen location", "Location"],
+    labels={"color": "Locations"},
+)
+fig.update_geos(center=dict(lat=dataframe.iloc[0][2], lon=dataframe.iloc[0][3]))
+fig.update_layout(mapbox_style="stamen-terrain")
+
+# Show the figure
+st.plotly_chart(fig, use_container_width=True)
+
