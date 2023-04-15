@@ -10,7 +10,8 @@ from pandas.api.types import (
 st.title("Filter your Airbnb Listings dataframe!")
 
 st.write(
-    """Check 'Add filters' box below and filter the airbnb listings to find the prefect one that matches your preferences
+    """This app is based on this blog [here](https://blog.streamlit.io/auto-generate-a-dataframe-filtering-ui-in-streamlit-with-filter_dataframe/). 
+    Can you think of ways to extend it with visuals?
     """
 )
 
@@ -85,7 +86,12 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
                     f"Substring or regex in {column}",
                 )
                 if user_text_input:
-                    df = df[df[column].str.contains(user_text_input)]      
+                    df = df[df[column].str.contains(user_text_input)]
 
     return df
 
+
+df = pd.read_csv(
+    "WK2_Airbnb_Amsterdam_listings_proj_solution.csv", index_col=0
+)
+st.dataframe(filter_dataframe(df))
